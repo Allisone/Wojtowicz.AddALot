@@ -11,7 +11,8 @@ The 1st command:
 Creates and adds 100 cards to the CardRepository without creating a part for them and thus also without adding them to any part
 
 The 2nd command:
-100 cards are created as well but each 20 cards are added to a new part which itself is then added to the PartRepository
+100 cards are created as well but each 20 cards are added to a new part which itself is then added to the PartRepository.
+In my case more than 10 times slower than the first command !!!
 
 
 

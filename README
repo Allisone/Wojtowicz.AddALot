@@ -1,0 +1,21 @@
+This is for testing purposes only
+
+
+
+
+Run these two commands
+./flow3 addalot:setup:createcards4 100 20 0
+./flow3 addalot:setup:createcards4 100 20 1
+
+The 1st command:
+Creates and adds 100 cards to the CardRepository without creating a part for them and thus also without adding them to any part
+
+The 2nd command:
+100 cards are created as well but each 20 cards are added to a new part which itself is then added to the PartRepository
+
+
+
+
+
+Command syntax:
+./flow3 addalot:setup:createcards4 amount_total group_each add_to_parts

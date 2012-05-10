@@ -51,7 +51,6 @@ class SetupCommandController extends \TYPO3\FLOW3\Cli\CommandController {
 					echo "creating part ...\n";
 					$part = new \Wojtowicz\AddALot\Domain\Model\Part();
 					$part->setName('Part '.floor($i/$group_each));
-					$this->partRepository->add($part);
 				}else{
 					echo "not creating part\n";
 				}
@@ -81,11 +80,18 @@ class SetupCommandController extends \TYPO3\FLOW3\Cli\CommandController {
 			}
 
 			if($i % $group_each === $group_each - 1){ // we have n of n cards of a part, so persist now
+				if($add_to_parts){
+					$this->partRepository->add($part);
+				}
 				$this->persistenceManager->persistAll();
 				$time_end = microtime(true);
 				$time_diff = $time_end - $time_start;
 				$part_no = floor($i/$group_each);
-				echo "Part $part_no added $cards_per_part cards in $time_diff seconds\n";
+				if($add_to_parts === true){
+					echo "... part $part_no created, attached $cards_per_part cards and added part to part repository in $time_diff seconds\n";
+				}else{
+					echo "... part $part_no NOT created, added $cards_per_part cards to the card repository in $time_diff seconds\n";
+				}
 
 				$time_start = microtime(true);
 			}

@@ -18,5 +18,5 @@ The 2nd command:
 
 Problem:
 ========
-You would assume that this isn't such a big deal, it's just 5 more write and 5 more read operations (to get the identifier I guess), but in fact the second command is 20 times slower than the first one (0.12 seconds vs 2.4 seconds for 10 cards).
-And in cases where you have to add sub sub sub sub sub properties this factors itself so high that for 10 such (more complex) cards it already takes me 25 seconds (25 / 0.12 ~ 200 !!!).
+You would assume that this isn't such a big deal... just 5 more write and 5 more read operations in the second command, but in fact the second command is 20 times slower than the first one (0.12 seconds vs 2.4 seconds for 10 cards).
+And in cases where you have to add sub sub sub sub sub properties this multiplies itself so high that for 10 such (more complex) cards it already takes me 25 seconds (25 / 0.12 ~ 200 !!!).

@@ -1,8 +1,11 @@
 This is for testing purposes only
 
+Syntax:
+=======
+./flow3 addalot:setup:createcards4 amount_total group_each add_to_parts
 
-
-
+Example:
+========
 Run these two commands
 ./flow3 addalot:setup:createcards4 100 20 0
 ./flow3 addalot:setup:createcards4 100 20 1
@@ -13,19 +16,7 @@ Creates and adds 100 cards to the CardRepository without creating a part for the
 The 2nd command:
 100 cards are created as well but each 20 cards are added to a new part which itself is then added to the PartRepository. So you get 5 parts with each 20 cards in it.
 
+Problem:
+========
 You would assume that this isn't such a big deal, it's just 5 more write and 5 more read operations (to get the identifier I guess), but in fact the second command is 20 times slower than the first one (0.12 seconds vs 2.4 seconds for 10 cards).
-And in cases where you have to add sub sub sub sub sub properties this factors itself so high that for 10 such (more complex) cards it already takes me 25 seconds (25 / 0.12 ~ 200 !!!). 
-
-
-
-
-
-Command syntax:
-./flow3 addalot:setup:createcards4 amount_total group_each add_to_parts
-
-
-
-Added Chapter 1 cards: 10 time: 25
-Added Chapter 2 cards: 19 time: 160
-Added Chapter 3 cards: 19 time: 317
-Added Chapter 4 cards: 28 time: 865
+And in cases where you have to add sub sub sub sub sub properties this factors itself so high that for 10 such (more complex) cards it already takes me 25 seconds (25 / 0.12 ~ 200 !!!).

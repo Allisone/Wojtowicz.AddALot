@@ -17,80 +17,84 @@ class SetupCommandController extends \TYPO3\FLOW3\Cli\CommandController {
 	protected $persistenceManager;
 
 	/**
-	 * @var \Wojtowicz\AddALot\Domain\Repository\PartRepository
+	 * @var \Wojtowicz\AddALot\Domain\Repository\ElementARepository
 	 * @FLOW3\Inject
 	 */
-	protected $partRepository;
+	protected $elementARepository;
 
 	/**
-	 * @var \Wojtowicz\AddALot\Domain\Repository\Card\TwoSideCardRepository
+	 * @var \Wojtowicz\AddALot\Domain\Repository\ElementB\ElementBRepository
 	 * @FLOW3\Inject
 	 */
-	protected $cardRepository;
+	protected $elementBRepository;
 
 	/**
-	 * Creates cards
+	 * Creates elementBs
 	 *
 	 * @param integer $group_each
 	 * @param integer $amount
-	 * @param boolean $add_to_parts
+	 * @param boolean $add_b_to_a
 	 * @return void
 	 */
-	public function createCards4Command($amount_total, $group_each, $add_to_parts){
-		echo "Add to parts ? ".($add_to_parts ? "Yes" : "No")."\n";
+	public function createElementsCommand($amount_total, $group_each, $add_b_to_a){
+		echo "Add to elementAs ? ".($add_b_to_a ? "Yes" : "No")."\n";
 
+		xdebug_break();
 		$time_start = microtime(true);
 		$time_end = 0;
 
-		$cards_per_part = 0;
+		$elementBs_per_elementA = 0;
 
 		for($i = 0 ; $i < $amount_total ; $i++)
 		{
 			if($i % $group_each == 0){
-				if($add_to_parts === true){
-					echo "creating part ...\n";
-					$part = new \Wojtowicz\AddALot\Domain\Model\Part();
-					$part->setName('Part '.floor($i/$group_each));
+				if($add_b_to_a === true){
+					echo "creating elementA ...\n";
+					$elementA = new \Wojtowicz\AddALot\Domain\Model\ElementA();
+					$elementA->setName('ElementA '.floor($i/$group_each));
 				}else{
-					echo "not creating part\n";
+					echo "not creating elementA\n";
 				}
-				$cards_per_part = 0;
+				$elementBs_per_elementA = 0;
 			}
 
-			$cards_per_part++;
+			$elementBs_per_elementA++;
 
-			$card = new \Wojtowicz\AddALot\Domain\Model\Card\TwoSideCard();
+			$elementB = new \Wojtowicz\AddALot\Domain\Model\ElementB\ElementB();
 
-			$sideA = new \Wojtowicz\AddALot\Domain\Model\Card\Side\Side();
-			$sideB = new \Wojtowicz\AddALot\Domain\Model\Card\Side\Side();
+			$elementC1 = new \Wojtowicz\AddALot\Domain\Model\ElementB\ElementC\ElementC();
+			// $elementC2 = new \Wojtowicz\AddALot\Domain\Model\ElementB\ElementC\ElementC();
 
-			$answerSideA = new \Wojtowicz\AddALot\Domain\Model\Card\Side\TextAnswer\TextAnswer();
-			$answerSideB = new \Wojtowicz\AddALot\Domain\Model\Card\Side\TextAnswer\TextAnswer();
+			$elementB->addElementC($elementC1);
+			// $elementB->addElementC($elementC2);
 
-			$sideA->addAnswer($answerSideA);
-			$sideB->addAnswer($answerSideB);
+			$elementDElementC1 = new \Wojtowicz\AddALot\Domain\Model\ElementB\ElementC\ElementD\ElementD();
+			// $elementDElementC2 = new \Wojtowicz\AddALot\Domain\Model\ElementB\ElementC\ElementD\ElementD();
 
-			$card->addSide($sideA);
-			$card->addSide($sideB);
+			$elementC1->addElementD($elementDElementC1);
+			// $elementC2->addElementD($elementDElementC2);
 
-			if($add_to_parts === true){
-				$part->addCard($card);
+
+
+			if($add_b_to_a === true){
+				$elementA->addElementB($elementB);
 			}else{
-				$this->cardRepository->add($card);
+				$this->elementBRepository->add($elementB);
 			}
 
-			if($i % $group_each === $group_each - 1){ // we have n of n cards of a part, so persist now
-				if($add_to_parts){
-					$this->partRepository->add($part);
+			if($i % $group_each === $group_each - 1){ // we have n of n elementBs of a elementA, so persist now
+				if($add_b_to_a){
+					$this->elementARepository->add($elementA);
 				}
+//				xdebug_break();
 				$this->persistenceManager->persistAll();
 				$time_end = microtime(true);
 				$time_diff = $time_end - $time_start;
-				$part_no = floor($i/$group_each);
-				if($add_to_parts === true){
-					echo "... part $part_no created, attached $cards_per_part cards and added part to part repository in $time_diff seconds\n";
+				$elementA_no = floor($i/$group_each);
+				if($add_b_to_a === true){
+					echo "... elementA $elementA_no created, attached $elementBs_per_elementA elementBs and added elementA to elementA repository in $time_diff seconds\n";
 				}else{
-					echo "... part $part_no NOT created, added $cards_per_part cards to the card repository in $time_diff seconds\n";
+					echo "... elementA $elementA_no NOT created, added $elementBs_per_elementA elementBs to the elementB repository in $time_diff seconds\n";
 				}
 
 				$time_start = microtime(true);

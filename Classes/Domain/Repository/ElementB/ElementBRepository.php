@@ -1,5 +1,5 @@
 <?php
-namespace Wojtowicz\AddALot\Domain\Repository\Card;
+namespace Wojtowicz\AddALot\Domain\Repository\ElementB;
 
 /*                                                                        *
  * This script belongs to the FLOW3 package "Wojtowicz.AddALot".             *
@@ -9,11 +9,11 @@ namespace Wojtowicz\AddALot\Domain\Repository\Card;
 use TYPO3\FLOW3\Annotations as FLOW3;
 
 /**
- * A repository for TwoSideCards
+ * A repository for ElementBs
  *
  * @FLOW3\Scope("singleton")
  */
-class TwoSideCardRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class ElementBRepository extends \TYPO3\FLOW3\Persistence\Repository {
 
 
 

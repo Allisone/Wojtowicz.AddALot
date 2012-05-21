@@ -2,21 +2,47 @@ This is for testing purposes only
 
 Syntax:
 =======
-./flow3 addalot:setup:createcards4 amount_total group_each add_to_parts
+./flow3 addalot:setup:createElements $amount_total $group_each $add_b_to_a
+
+What happens:
+=============
+ElementA has many ElementBs,
+ElementB has many ElementCs,
+ElementC has many ElementDs,
+
+If $add_b_to_a == 0
+	create $amount_total ElementBs, each having 1 ElementC, each having 1 ElementD
+	add all ElementBs to the ElementB Repository
+If add_b_to_b == 1
+	create $amount_total/$group_each ElementAs, each having $group_each ElementBs, each having 1 ElementC, each having 1 ElementD 
+	add all ElementAs to the ElementA Repository
 
 Example:
 ========
 Run these two commands
-./flow3 addalot:setup:createcards4 100 20 0
-./flow3 addalot:setup:createcards4 100 20 1
+./flow3 addalot:setup:createElements 100 20 0
+./flow3 addalot:setup:createElements 100 20 1
 
 The 1st command:
-Creates and adds 100 cards to the CardRepository without creating a part for them
+Creates and adds 100 elementBs to the ElementBRepository (and not creating any elementAs)
 
 The 2nd command:
-100 cards are created as well but each 20 cards are added to a new part which itself is then added to the PartRepository. So you get 5 parts with each 20 cards in it.
+100 ElementBs are created as well but each 20 elementBs a new ElementA is created to which the ElementBs are added. And instead of adding the ElementBs to the ElementB Repository the ElementAs are added to the ElementA Repository. So you get 5 ElementAs with each 20 ElementBs in it.
 
 Problem:
 ========
-You would assume that this isn't such a big deal... just 5 more write and 5 more read operations in the second command, but in fact the second command is 20 times slower than the first one (0.12 seconds vs 2.4 seconds for 10 cards).
-And in cases where you have to add sub sub sub sub sub properties this multiplies itself so high that for 10 such (more complex) cards it already takes me 25 seconds (25 / 0.12 ~ 200 !!!).
+You would assume that this isn't such a big difference, it's not a big deal to just add 5 more write and 5 more read operations in the second command, and maybe ~ 1/20 more validations, but in fact the second command is more than 25 times slower (on my machine) than the first one (0.21 seconds vs 5,7 seconds for 20 elementBs).
+And in cases where you have to add sub*10 properties this multiplies itself so high that for 10 such (more complex) ElementBs it already takes me already 25 seconds (more than 200 times slower), and I'm talking about a real case, where 25 seconds for 10 elements is just wrong.
+
+Further Analysis:
+=================
+Using this commands ...
+1. ./flow3 addalot:setup:createcards4 20 5 0
+2. ./flow3 addalot:setup:createcards4 20 5 1
+
+... and inspecting the profiler output of that execution with kCachegrind I have found out that 
+In 1. command TYPO3\FLOW3\Error\Result->mergeProperty is being called  6480
+In 2. command TYPO3\FLOW3\Error\Result->mergeProperty is being called 79656
+
+I'd say 6480 calls of mergeProperty calls for 20 Elements is quite a big number, but 79656 what is that... ?
+When changing the code so that each ElemebtB gets 2 ElementCs it even becomes 231576 calls in the second command.

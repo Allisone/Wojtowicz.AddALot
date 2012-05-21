@@ -13,7 +13,7 @@ use TYPO3\FLOW3\Annotations as FLOW3;
  *
  * @FLOW3\Scope("singleton")
  */
-class PartRepository extends \TYPO3\FLOW3\Persistence\Repository {
+class ElementARepository extends \TYPO3\FLOW3\Persistence\Repository {
 
 }
 ?>

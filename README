@@ -31,8 +31,8 @@ The 2nd command:
 
 Problem:
 ========
-You would assume that this isn't such a big difference, it's not a big deal to just add 5 more write and 5 more read operations in the second command, and maybe ~ 1/20 more validations, but in fact the second command is more than 25 times slower (on my machine) than the first one (0.21 seconds vs 5,7 seconds for 20 elementBs).
-And in cases where you have to add sub*10 properties this multiplies itself so high that for 10 such (more complex) ElementBs it already takes me already 25 seconds (more than 200 times slower), and I'm talking about a real case, where 25 seconds for 10 elements is just wrong.
+You would assume that this isn't such a big difference, it's not a big deal to just add 5 more write and 5 more read db-operations in the second command, and maybe ~ 1/20 more validations, but in fact the second command is more than 25 times slower (on my machine) than the first one (0.21 seconds vs 5,7 seconds for 20 elementBs).
+And in cases where you have to add sub*10 properties this multiplies itself so high that for 10 such (more complex) ElementBs it takes already 25 seconds (more than 200 times slower), and I'm talking about a real case, where 25 seconds for 10 elements just isn't acceptable.
 
 Further Analysis:
 =================
@@ -44,5 +44,5 @@ Using this commands ...
 In 1. command TYPO3\FLOW3\Error\Result->mergeProperty is being called  6480
 In 2. command TYPO3\FLOW3\Error\Result->mergeProperty is being called 79656
 
-I'd say 6480 calls of mergeProperty calls for 20 Elements is quite a big number, but 79656 what is that... ?
-When changing the code so that each ElemebtB gets 2 ElementCs it even becomes 231576 calls in the second command.
+I'd say mergeProperty 6480 calls for 20 Elements is quite a big number, but 79656 calls just because we added 4 additional ElementAs + Associations + Validation, that must be wrong, right ?
+When changing the code so that each ElementB gets 2 ElementCs it even becomes 231576 mergeProperty calls in the second command.

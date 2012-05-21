@@ -41,8 +41,8 @@ Using this commands ...
 2. ./flow3 addalot:setup:createcards4 20 5 1
 
 ... and inspecting the profiler output of that execution with kCachegrind I have found out that 
-In 1. command TYPO3\FLOW3\Error\Result->mergeProperty is being called  6480
-In 2. command TYPO3\FLOW3\Error\Result->mergeProperty is being called 79656
+In 1. command TYPO3\FLOW3\Error\Result->mergeProperty() is being called  6480
+In 2. command TYPO3\FLOW3\Error\Result->mergeProperty() is being called 79656
 
-I'd say mergeProperty 6480 calls for 20 Elements is quite a big number, but 79656 calls just because we added 4 additional ElementAs + Associations + Validation, that must be wrong, right ?
-When changing the code so that each ElementB gets 2 ElementCs it even becomes 231576 mergeProperty calls in the second command.
+I'd say 6480 mergeProperty calls for 20 Elements is quite a big number, but 79656 calls just because we added 4 additional ElementAs + Associations + Validation, that must be wrong, ... right ?
+When changing the code so that each ElementB gets 2 ElementCs it even becomes 231576 mergeProperty calls in the second command. So this feels like some recursion bug.

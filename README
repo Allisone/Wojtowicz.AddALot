@@ -11,11 +11,11 @@ ElementB has many ElementCs,
 ElementC has many ElementDs,
 
 If $add_b_to_a == 0
-	create $amount_total ElementBs, each having 1 ElementC, each having 1 ElementD
-	add all ElementBs to the ElementB Repository
-If add_b_to_b == 1
-	create $amount_total/$group_each ElementAs, each having $group_each ElementBs, each having 1 ElementC, each having 1 ElementD 
-	add all ElementAs to the ElementA Repository
+  create $amount_total ElementBs, each having 1 ElementC, each having 1 ElementD
+  add all ElementBs to the ElementB Repository
+If $add_b_to_a == 1
+  create $amount_total/$group_each ElementAs, each having $group_each ElementBs, each having 1 ElementC, each having 1 ElementD 
+  add all ElementAs to the ElementA Repository
 
 Example:
 ========
